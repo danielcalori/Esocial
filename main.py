@@ -18,9 +18,8 @@ def get_driver_uc():
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-gpu")
     options.add_argument("--remote-debugging-port=9222")
-    # Use the chromium-browser binary location provided by the system
     options.binary_location = "/usr/bin/chromium-browser"
-    driver = uc.Chrome(options=options)
+    driver = uc.Chrome(options=options, version_main=132)
     return driver
 
 def login_esocial(driver, cpf, senha):
