@@ -13,24 +13,28 @@ from twilio.rest import Client
 
 def get_driver_uc():
     options = uc.ChromeOptions()
-    # For production, keep headless True; for debugging, set it to False
-    options.headless = True
+    
+    # For production, use headless=True; for debugging, set to False.
+    options.headless = True  
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-gpu")
     options.add_argument("--remote-debugging-port=9222")
     options.add_argument("--window-size=1920,1080")
+    
     # Set a typical desktop user agent
     options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36")
-    # Remove the experimental options that were causing issues:
-    # options.add_experimental_option("excludeSwitches", ["enable-automation"])
-    # options.add_experimental_option("useAutomationExtension", False)
-    options.add_argument("--disable-blink-features=AutomationControlled")
-    # Specify the binary location (typical on GitHub Actions Ubuntu runners)
+    
+    # Optionally, try commenting this out if it causes issues:
+    # options.add_argument("--disable-blink-features=AutomationControlled")
+    
+    # Specify the path to Chromium (this should be correct for GitHub Actions)
     options.binary_location = "/usr/bin/chromium-browser"
-    # Force undetected_chromedriver to use the ChromeDriver version for Chrome version 132
+    
+    # Force undetected_chromedriver to use the ChromeDriver version that matches Chromium 132
     driver = uc.Chrome(options=options, version_main=132)
     return driver
+
 
 
 def login_esocial(driver, cpf, senha):
