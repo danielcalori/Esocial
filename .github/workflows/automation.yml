@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-  # To run on a schedule, uncomment the following lines:
+  # Uncomment the schedule block below to run the workflow on a regular schedule.
   # schedule:
   #   - cron: "0 0 * * *"  # runs daily at midnight UTC
 
@@ -24,7 +24,7 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y chromium-browser python3.11-distutils
+          sudo apt-get install -y chromium-browser python3-distutils
 
       - name: Install Python dependencies
         run: |
@@ -41,4 +41,5 @@ jobs:
           PHONE_NUMBER: ${{ secrets.PHONE_NUMBER }}
         run: |
           python main.py
+
 
