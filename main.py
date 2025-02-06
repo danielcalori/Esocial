@@ -13,12 +13,22 @@ from twilio.rest import Client
 
 def get_driver_uc():
     options = uc.ChromeOptions()
-    options.headless = True  # Run headless
+    # For production, keep headless True; for debugging, you might set it to False
+    options.headless = True  
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-gpu")
     options.add_argument("--remote-debugging-port=9222")
+    options.add_argument("--window-size=1920,1080")
+    # Set a typical desktop user agent
+    options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36")
+    # Disable automation detection
+    options.add_argument("--disable-blink-features=AutomationControlled")
+    options.add_experimental_option("excludeSwitches", ["enable-automation"])
+    options.add_experimental_option("useAutomationExtension", False)
+    # Set the Chromium binary location
     options.binary_location = "/usr/bin/chromium-browser"
+    # Force undetected_chromedriver to use ChromeDriver for version 132
     driver = uc.Chrome(options=options, version_main=132)
     return driver
 
