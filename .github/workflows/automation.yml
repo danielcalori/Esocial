@@ -1,0 +1,40 @@
+name: eSocial Automation
+
+on:
+  push:
+    branches:
+      - main
+  # Uncomment the schedule section below to run the workflow on a schedule (daily at midnight UTC):
+  # schedule:
+  #   - cron: "0 0 * * *"
+
+jobs:
+  run-automation:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y chromium-browser
+          pip install --upgrade pip
+          pip install undetected-chromedriver selenium requests python-dotenv twilio
+
+      - name: Run eSocial Automation
+        env:
+          ESOCIAL_CPF: ${{ secrets.ESOCIAL_CPF }}
+          ESOCIAL_SENHA: ${{ secrets.ESOCIAL_SENHA }}
+          TWILIO_SID: ${{ secrets.TWILIO_SID }}
+          TWILIO_TOKEN: ${{ secrets.TWILIO_TOKEN }}
+          TWILIO_NUMBER: ${{ secrets.TWILIO_NUMBER }}
+          PHONE_NUMBER: ${{ secrets.PHONE_NUMBER }}
+        run: |
+          python main.py
