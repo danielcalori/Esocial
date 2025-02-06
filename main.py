@@ -23,17 +23,27 @@ def get_driver_uc():
     return driver
 
 def login_esocial(driver, cpf, senha):
-    driver.get("https://login.esocial.gov.br/login.aspx")
-    wait = WebDriverWait(driver, 20)
-    botao_gov = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Entrar com gov.br')]")))
-    botao_gov.click()
-    campo_cpf = wait.until(EC.presence_of_element_located((By.ID, "username")))
-    campo_cpf.send_keys(cpf)
-    campo_senha = driver.find_element(By.ID, "password")
-    campo_senha.send_keys(senha)
-    campo_senha.send_keys(Keys.RETURN)
-    wait.until(EC.presence_of_element_located((By.XPATH, "//h1[contains(text(), 'Bem-vindo')]")))
-    print("✅ Login successful!")
+    try:
+        print("🔵 Accessing eSocial login page...")
+        driver.get("https://login.esocial.gov.br/login.aspx")
+        wait = WebDriverWait(driver, 40)  # Increased timeout
+        # Use a more flexible locator:
+        botao_gov = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(., 'gov.br')]")))
+        botao_gov.click()
+        
+        campo_cpf = wait.until(EC.presence_of_element_located((By.ID, "username")))
+        campo_cpf.send_keys(cpf)
+        campo_senha = driver.find_element(By.ID, "password")
+        campo_senha.send_keys(senha)
+        campo_senha.send_keys(Keys.RETURN)
+        wait.until(EC.presence_of_element_located((By.XPATH, "//h1[contains(text(), 'Bem-vindo')]")))
+        print("✅ Login successful!")
+    except Exception as e:
+        print("❌ Login error:", e)
+        print("Page source snapshot:")
+        print(driver.page_source[:2000])  # print first 2000 characters
+        raise
+
 
 def generate_salary_guide(driver, month):
     wait = WebDriverWait(driver, 20)
