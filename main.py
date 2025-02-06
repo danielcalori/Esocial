@@ -46,8 +46,12 @@ def login_esocial(driver, cpf, senha):
         botao_gov = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(., 'gov.br')]")))
         botao_gov.click()
         
-        campo_cpf = wait.until(EC.presence_of_element_located((By.ID, "username")))
+        campo_cpf = wait.until(EC.presence_of_element_located((By.ID, "login-cpf")))
         campo_cpf.send_keys(cpf)
+        
+        botao_gov2 = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(., 'continuar')]")))
+        botao_gov2.click()
+        
         campo_senha = driver.find_element(By.ID, "password")
         campo_senha.send_keys(senha)
         campo_senha.send_keys(Keys.RETURN)
