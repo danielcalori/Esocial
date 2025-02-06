@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-  # Uncomment the schedule block below to run the workflow on a regular schedule.
+  # Uncomment the schedule block below to run the workflow on a schedule:
   # schedule:
   #   - cron: "0 0 * * *"  # runs daily at midnight UTC
 
@@ -24,11 +24,11 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y chromium-browser python3-distutils
+          sudo apt-get install -y chromium-browser
 
       - name: Install Python dependencies
         run: |
-          pip install --upgrade pip
+          pip install --upgrade pip setuptools
           pip install undetected-chromedriver selenium requests python-dotenv twilio
 
       - name: Run eSocial automation script
@@ -41,6 +41,7 @@ jobs:
           PHONE_NUMBER: ${{ secrets.PHONE_NUMBER }}
         run: |
           python main.py
+
 
 
 
